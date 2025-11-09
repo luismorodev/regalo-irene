@@ -20,7 +20,7 @@ interface Question {
 interface Props {
 	question: Question;
 	updateQuestion: (arg0: Question) => void;
-	hint: Hint;
+	hint?: Hint;
 	fetchAllHints: () => void;
 }
 
@@ -42,10 +42,13 @@ export default function QuestionCard({
 				.select()
 				.single();
 
-			updateQuestion((prevState) => ({
-				...prevState,
-				answered_correct: updatedQuestion.data.answered_correct,
-			}));
+			if (question && updatedQuestion.data) {
+				const newQuestion: Question = {
+					...question,
+					answered_correct: updatedQuestion.data.answered_correct,
+				};
+				updateQuestion(newQuestion);
+			}
 
 			const today = new Date();
 			const formattedDate = today.toISOString().split('T')[0];
@@ -53,7 +56,7 @@ export default function QuestionCard({
 			await supabase
 				.from('hints')
 				.update({ viewed: true, date_viewed: formattedDate })
-				.eq('id', hint.id);
+				.eq('id', hint?.id);
 
 			await fetchAllHints();
 		} else {

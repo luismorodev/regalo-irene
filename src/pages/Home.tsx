@@ -19,7 +19,7 @@ interface Hint {
 }
 
 export default function Home() {
-	const [question, setQuestion] = useState<Question>();
+	const [question, setQuestion] = useState<Question | undefined>();
 	const [hint, setHint] = useState<Hint>();
 	const [allHints, setAllHints] = useState<Hint[]>();
 	const [errorMsg, setErrorMsg] = useState<string>();
@@ -33,7 +33,7 @@ export default function Home() {
 			.eq('viewed', true)
 			.select();
 
-		setAllHints(data);
+		setAllHints(data ?? []);
 	};
 
 	useEffect(() => {
