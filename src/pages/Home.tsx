@@ -59,9 +59,10 @@ export default function Home() {
 
 			const { data } = await supabase
 				.from('hints')
-				.select()
+				.select(`*`)
 				.or(`viewed.eq.false,date_viewed.eq.${formattedDate}`)
 				.order('order', { ascending: true })
+                .limit(1)
 				.single();
 			setHint(data);
 		};

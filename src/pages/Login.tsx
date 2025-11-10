@@ -27,7 +27,7 @@ const Login = ({ updateLogIn }: loginProps) => {
 		setErrorMsg('');
 
 		if (
-			email !== correctCredentials?.username ||
+			email.toLowerCase() !== correctCredentials?.username ||
 			password !== correctCredentials?.password
 		) {
 			setErrorMsg('Usuario o contraseña incorrectos ❌');
